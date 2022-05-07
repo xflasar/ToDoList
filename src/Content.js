@@ -4,9 +4,11 @@ import { ListItem } from "@mui/material";
 import { ListSubheader } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import ToDo from "./ToDo";
+import FormDialog from './FormCreate';
+import { format } from 'date-fns';
 
 
-export default function ContentForm({ toDoList, handleToggle, handleFilter, handleRemoval }) {
+export default function ContentForm({ toDoList, handleToggle, handleFilter, handleRemoval, addTask }) {
     let dateL = [];
     let pushMaster = [];
     return (
@@ -27,6 +29,7 @@ export default function ContentForm({ toDoList, handleToggle, handleFilter, hand
             }}
             subheader={<li />}
         >
+            <FormDialog addTask={addTask}/>
             {
                 toDoList.map((task) => {
                     const found = dateL.some(item => item === task.date);
@@ -37,7 +40,7 @@ export default function ContentForm({ toDoList, handleToggle, handleFilter, hand
                             dateL.push(task.date),
                             <li key={`todo-${task.date}`}>
                                 <ul>
-                                    <ListSubheader sx={{ color: "white", bgcolor: "rgb(26, 32, 39)" }}>{`I'm Sticky ${task.date}`}</ListSubheader>
+                                    <ListSubheader sx={{ color: "white", bgcolor: "rgb(26, 32, 39)" }}>{`${format(task.date * 1000, 'dd/MM/yyyy')}`}</ListSubheader>
                                     {toDoList.forEach(todom => {
                                         if (task.date === todom.date) {
                                             pushMaster.push(

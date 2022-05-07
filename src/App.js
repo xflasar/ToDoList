@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import data from "./data.json";
+import { format } from 'date-fns';
 
 // Components
 import Header from './Header';
-//import TodoList from './ToDoList'
 import ContentForm from './Content';
+
 
 // CSS styles
 import './App.css';
+import { CssBaseline } from '@mui/material';
 
 
 
@@ -35,13 +37,20 @@ function App() {
     setToDoList(removed);
   }
 
+  const addTask = (userInput) => {
+    let copy = [...toDoList];
+    copy = [...copy, {id:toDoList.length + 1, date: Date.parse(format(Date.now(), 'dd/MM/yyyy')), task: userInput, complete: false}];
+    setToDoList(copy);
+  }
+
   return (
-    <div className="App">
-      <Header/>
-      <ContentForm toDoList={toDoList} handleToggle={handleToggle} handleFilter={handleFilter} handleRemoval={handleRemoval}/>
-      
-    </div>
-    //<TodoList toDoList={toDoList} handleToggle={handleToggle} handleFilter={handleFilter}/>
+    <React.Fragment>
+      <CssBaseline/>
+      <div className="App">
+        <Header/>
+        <ContentForm toDoList={toDoList} handleToggle={handleToggle} handleFilter={handleFilter} handleRemoval={handleRemoval} addTask={addTask}/>
+      </div>
+    </React.Fragment>
   );
 }
 
